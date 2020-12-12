@@ -1,6 +1,3 @@
-# src/tests/test_users_unit.py
-
-
 import json
 from datetime import datetime
 
@@ -16,7 +13,9 @@ def test_add_user(test_app, monkeypatch):
     def mock_add_user(username, email):
         return True
 
-    monkeypatch.setattr(src.api.users.crud, "get_user_by_email", mock_get_user_by_email)
+    monkeypatch.setattr(
+        src.api.users.views, "get_user_by_email", mock_get_user_by_email
+    )
     monkeypatch.setattr(src.api.users.views, "add_user", mock_add_user)
 
     client = test_app.test_client()
@@ -236,9 +235,6 @@ def test_update_user_invalid(
     test_app, monkeypatch, user_id, payload, status_code, message
 ):
     def mock_get_user_by_id(user_id):
-        return None
-
-    def mock_get_user_by_email(email):
         return None
 
     monkeypatch.setattr(src.api.users.views, "get_user_by_id", mock_get_user_by_id)
